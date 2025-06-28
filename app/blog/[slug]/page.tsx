@@ -1,9 +1,22 @@
+"use server"
+
 import { PortableText } from '@portabletext/react';
 import { client } from '../../../sanity/lib/client';
 import CodeBlock from '@/app/_components/utils/CodeBlock';
 import Image from 'next/image';
 
-const ptComponents = {
+const components = {
+  block: {
+    // Ex. 1: customizing common block types
+    h3: ({children}) => <h3 className="text-2xl mt-10 mb-5">{children}</h3>,
+    normal: ({children}) => <p className="mb-4">{children}</p>,
+    blockquote: ({children}) => <blockquote className="border-l-purple-500">{children}</blockquote>,
+
+    // Ex. 2: rendering custom styles
+    customHeading: ({children}) => (
+      <h2 className="text-lg text-primary text-purple-700">{children}</h2>
+    ),
+  },
   types: {
     image: ({ value }: any) => {
       if (!value?.asset?._ref) {
@@ -37,7 +50,7 @@ const POST_QUERY = `*[_type == "post" && slug.current == $slug][0]{
   body,
   "authorName": author->name,
   "imageUrl": mainImage.asset->url,
-  _createdAt,
+  publishedAt,
 }`;
 
 
@@ -49,7 +62,7 @@ export default async function PostPage({ params }) {
     return <div>Post not found</div>;
   }
   
-  const dateObj = new Date(post._createdAt);
+  const dateObj = new Date(post.publishedAt);
   const monthName = dateObj.toLocaleString('default', { month: 'long' });
   const date = dateObj.getDate();
   const year = dateObj.getFullYear();
@@ -65,7 +78,7 @@ export default async function PostPage({ params }) {
         height={300} />
       <div className="text-3xl mb-0">written by {post.authorName}</div>
       <div className="text-lg">{monthName} {date}, {year}</div>
-      <PortableText value={post.body} components={ptComponents}/>
+      <PortableText value={post.body} components={components}/>
     </main>
     </div>
   );
