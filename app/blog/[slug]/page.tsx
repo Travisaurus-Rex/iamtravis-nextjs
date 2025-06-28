@@ -35,7 +35,9 @@ const POST_QUERY = `*[_type == "post" && slug.current == $slug][0]{
   title,
   slug,
   body,
-  // Add other fields you need
+  "authorName": author->name,
+  "imageUrl": mainImage.asset->url,
+  _createdAt,
 }`;
 
 
@@ -47,11 +49,22 @@ export default async function PostPage({ params }) {
     return <div>Post not found</div>;
   }
   
+  const dateObj = new Date(post._createdAt);
+  const monthName = dateObj.toLocaleString('default', { month: 'long' });
+  const date = dateObj.getDate();
+  const year = dateObj.getFullYear();
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-8 font-[family-name:var(--font-geist-sans)] blog-page">
       <main className="mx-auto max-w-3xl space-y-12 py-16">
-      <h1>{post.title}</h1>
+      <h1 className="text-6xl font-bold">{post.title}</h1>
+      <Image 
+        src={post.imageUrl} 
+        alt="Main image"
+        width={800}
+        height={300} />
+      <div className="text-3xl mb-0">written by {post.authorName}</div>
+      <div className="text-lg">{monthName} {date}, {year}</div>
       <PortableText value={post.body} components={ptComponents}/>
     </main>
     </div>
