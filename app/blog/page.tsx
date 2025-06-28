@@ -1,19 +1,15 @@
 import Link            from 'next/link'
 import Image           from 'next/image'
-import {draftMode}     from 'next/headers'
 import { sanityFetch } from '@/sanity/lib/live'
 import { postListQuery } from '@/sanity/lib/queries/postListQuery'
 import { Post } from '../types/post'
-
 export const revalidate = 60   // ISR: regenerate after 1 min
 
 export default async function Blog() {
-  // Enable previews if you're looking at a draft
-  const {isEnabled} = await draftMode()
 
   const {data: posts} = await sanityFetch({
     query:       postListQuery,
-    perspective: isEnabled ? 'previewDrafts' : 'published',
+    perspective: 'published',
   })
 
   return (
@@ -22,7 +18,7 @@ export default async function Blog() {
         {posts.map((post: Post) => (
           <article key={post._id} className="space-y-4">
             {post.cover?.asset?.url && (
-              <Link href={`/posts/${post.slug.current}`}>
+              <Link href={`/blog/${post.slug.current}`}>
                 <Image
                   src={post.cover.asset.url + '?w=800&auto=format'}
                   alt=""
@@ -35,7 +31,7 @@ export default async function Blog() {
             )}
 
             <h2 className="text-2xl font-semibold">
-              <Link href={`/posts/${post.slug.current}`}>{post.title}</Link>
+              <Link href={`/blog/${post.slug.current}`}>{post.title}</Link>
             </h2>
 
             {post.excerpt && <p className="text-muted-foreground">{post.excerpt}</p>}
