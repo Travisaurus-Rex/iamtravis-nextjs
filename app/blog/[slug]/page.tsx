@@ -54,7 +54,7 @@ const POST_QUERY = `*[_type == "post" && slug.current == $slug][0]{
 }`;
 
 
-export default async function PostPage({ params }) {
+export default async function Post({ params }: any) {
   const { slug } = params;
   const post = await client.fetch(POST_QUERY, { slug });
 
@@ -86,5 +86,5 @@ export default async function PostPage({ params }) {
 
 export async function generateStaticParams() {
   const slugs = await client.fetch(`*[_type == "post"].slug.current`);
-  return slugs.map((slug) => ({ slug }));
+  return slugs.map(({slug}: any) => ({ slug }));
 }
