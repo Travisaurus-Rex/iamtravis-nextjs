@@ -1,7 +1,8 @@
 "use client";
 import Link, { LinkProps } from "next/link";
-import React from "react";
-import { useRouter } from "next/navigation";
+import React, { useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { Router } from "next/router";
 
 interface TransitionLinkProps extends LinkProps {
   children: React.ReactNode;
@@ -17,6 +18,12 @@ export const TransitionLink: React.FC<TransitionLinkProps> = ({
   href,
   ...props
 }) => {
+  const pathname = usePathname();
+
+  useEffect(() => {
+    const body = document.querySelector("body");
+    body?.classList.remove("page-transition");
+  }, [pathname]);
   const router = useRouter();
 
   const handleTransition = async (
@@ -24,14 +31,8 @@ export const TransitionLink: React.FC<TransitionLinkProps> = ({
   ) => {
     e.preventDefault();
     const body = document.querySelector("body");
-
     body?.classList.add("page-transition");
-
-    await sleep(500);
     router.push(href);
-    await sleep(500);
-
-    body?.classList.remove("page-transition");
   };
 
   return (

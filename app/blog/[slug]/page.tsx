@@ -7,14 +7,13 @@ import Image from 'next/image';
 
 const components = {
   block: {
-    // Ex. 1: customizing common block types
-    h3: ({ value }: any) => <h3 className="text-2xl mt-10 mb-5">{value}</h3>,
-    normal: ({ value }: any) => <p className="mb-4">{value}</p>,
-    blockquote: ({ value }: any) => <blockquote className="border-l-purple-500">{value}</blockquote>,
+    h3: ({children}) => <h3 className="text-2xl mt-10 mb-5">{children}</h3>,
+    normal: ({children}) => <p className="mb-4">{children}</p>,
+    blockquote: ({children}) => <blockquote className="border-l-purple-500">{children}</blockquote>,
 
     // Ex. 2: rendering custom styles
-    customHeading: ({value}: any) => (
-      <h2 className="text-lg text-primary text-purple-700">{value}</h2>
+    customHeading: ({children}) => (
+      <h2 className="text-lg text-primary text-purple-700">{children}</h2>
     ),
   },
   types: {
@@ -54,7 +53,7 @@ const POST_QUERY = `*[_type == "post" && slug.current == $slug][0]{
 }`;
 
 
-export default async function Post({ params }: any) {
+export default async function PostPage({ params }) {
   const { slug } = params;
   const post = await client.fetch(POST_QUERY, { slug });
 
@@ -86,5 +85,5 @@ export default async function Post({ params }: any) {
 
 export async function generateStaticParams() {
   const slugs = await client.fetch(`*[_type == "post"].slug.current`);
-  return slugs.map(({slug}: any) => ({ slug }));
+  return slugs.map((slug) => ({ slug }));
 }
