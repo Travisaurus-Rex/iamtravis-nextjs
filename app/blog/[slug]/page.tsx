@@ -8,13 +8,13 @@ import Image from 'next/image';
 const components = {
   block: {
     // Ex. 1: customizing common block types
-    h3: ({children}) => <h3 className="text-2xl mt-10 mb-5">{children}</h3>,
-    normal: ({children}) => <p className="mb-4">{children}</p>,
-    blockquote: ({children}) => <blockquote className="border-l-purple-500">{children}</blockquote>,
+    h3: ({ value }: any) => <h3 className="text-2xl mt-10 mb-5">{value}</h3>,
+    normal: ({ value }: any) => <p className="mb-4">{value}</p>,
+    blockquote: ({ value }: any) => <blockquote className="border-l-purple-500">{value}</blockquote>,
 
     // Ex. 2: rendering custom styles
-    customHeading: ({children}) => (
-      <h2 className="text-lg text-primary text-purple-700">{children}</h2>
+    customHeading: ({value}: any) => (
+      <h2 className="text-lg text-primary text-purple-700">{value}</h2>
     ),
   },
   types: {
