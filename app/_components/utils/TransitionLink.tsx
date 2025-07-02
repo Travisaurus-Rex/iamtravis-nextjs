@@ -24,12 +24,13 @@ export const TransitionLink: React.FC<TransitionLinkProps> = ({
     const body = document.querySelector("body");
     body?.classList.remove("page-transition");
   }, [pathname]);
+  
   const router = useRouter();
-
   const handleTransition = async (
     e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
   ) => {
     e.preventDefault();
+    if (href === pathname) return;
     const body = document.querySelector("body");
     body?.classList.add("page-transition");
     router.push(href);
