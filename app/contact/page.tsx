@@ -1,19 +1,36 @@
 "use client";
 
-import { useState } from "react";
+import { FormEvent, useRef, useState } from "react";
+import { send } from '@emailjs/browser';
 
 export default function Contact() {
-  const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
+  const formRef = useRef<HTMLFormElement>(null);
+  const [status, setStatus] = useState<'idle' | 'loading' | 'sent' | 'error'>('idle');
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    setStatus("sending");
+    if (!formRef.current) return;
+    setStatus('loading');
 
-    // ---- DEMO only ------------------------------------------------
-    // Replace with Formspree, EmailJS, API route, etc.
-    await new Promise((r) => setTimeout(r, 1400));
-    // ---------------------------------------------------------------
-    setStatus("sent");
+    const data = Object.fromEntries(new FormData(formRef.current)) as Record<string, string>;
+
+    try {
+      await send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+        {
+          from_name: data.name,
+          from_email: data.email,
+          message: data.message,
+        },
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+      );
+      setStatus('sent');
+      formRef.current.reset();
+    } catch (err) {
+      console.error(err);
+      setStatus('error');
+    }
   }
 
   return (
@@ -25,7 +42,7 @@ export default function Contact() {
 
       {/* wrapper provides the gradient outline */}
       <div className="gradient-border rounded-lg w-full">
-        <form
+        <form ref={formRef}
           onSubmit={handleSubmit}
           className="bg-transparent rounded-lg px-8 py-10 flex flex-col gap-6"
         >
@@ -75,7 +92,7 @@ export default function Contact() {
             className="self-start px-6 py-2 rounded-md font-medium bg-gradient-to-r from-[#ed85ca] to-[#78c6f2] text-black hover:opacity-90 disabled:opacity-60 transition"
           >
             {status === "idle" && "Send"}
-            {status === "sending" && "Sending…"}
+            {status === "loading" && "Sending…"}
             {status === "sent" && "Sent!"}
           </button>
         </form>
