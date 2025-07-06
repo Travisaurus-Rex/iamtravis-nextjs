@@ -4,7 +4,7 @@ import { DownloadButton } from "../utils/DownloadButton";
 
 export const FlipNav = () => {
   return (
-    <nav className="p-4 flex items-center justify-between relative">
+    <nav className="navbar p-4 flex items-center justify-between absolute top-0 left-0 right-0 z-50 bg-transparent text-white">
       <NavLeft />
       <DownloadButton>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="inline size-6">
@@ -16,7 +16,7 @@ export const FlipNav = () => {
 
 const NavLeft = () => {
   return (
-    <div className="text-white flex items-center gap-6">
+    <div className="flex items-center gap-6">
       <Link href="/">
         <Logo />
       </Link>
@@ -38,7 +38,7 @@ const Logo = () => {
       viewBox="0 0 50 39"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="fill-gray-800"
+      className="fill-white"
     >
       <path
         d="M16.4992 2H37.5808L22.0816 24.9729H1L16.4992 2Z"

@@ -1,0 +1,34 @@
+.gradient-background {
+  background-image: url("/robot-left.jpg");
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position:center;      /* keep photo centered */
+}
+
+.gradient-background::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(45deg, #ed85ca, #78c6f2, #ed85ca);
+  opacity: 0.9;
+  pointer-events: none;
+  background-size: 300% 300%;
+  background-position:0% 50%;
+  background-repeat: no-repeat;
+  background-blend-mode:darken;
+  animation: gradient 10s ease infinite alternate;
+  overflow: hidden;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

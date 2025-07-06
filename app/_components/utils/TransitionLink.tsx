@@ -2,15 +2,10 @@
 import Link, { LinkProps } from "next/link";
 import React, { useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { Router } from "next/router";
 
 interface TransitionLinkProps extends LinkProps {
   children: React.ReactNode;
   href: string;
-}
-
-function sleep(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 export const TransitionLink: React.FC<TransitionLinkProps> = ({

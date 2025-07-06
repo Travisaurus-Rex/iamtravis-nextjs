@@ -1,9 +1,6 @@
-@import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap');
+@import "tailwindcss";
 
 @theme inline {
   --color-background: var(--background);
@@ -19,9 +16,23 @@
   }
 }
 
+/* styles/globals.css – after the Tailwind base imports */
+@layer utilities {
+  .section-heading {
+    @apply text-2xl sm:text-3xl font-semibold tracking-wide uppercase;
+  }
+  .gradient-bar {
+    @apply bg-gradient-to-r from-[#ed85ca] via-[#78c6f2] to-[#ed85ca];
+  }
+}
+
+.noto {
+  font-family: "Noto Sans JP", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
 body {
-  background: var(--background);
-  color: black;
   font-family: Arial, Helvetica, sans-serif;
   transition-property: opacity, transform, filter, background;
   transition-timing-function: ease-out;
@@ -41,17 +52,21 @@ body {
 }
 
 .about-page {
-  background-color: pink;
+  background-color: #15151a;
 }
 
 .blog-page {
-  background-color: white;
+  background-color: #15151a;
 }
 
 .work-page {
-  background-color: plum;
+  background-color: #15151a;
 }
 
 .contact-page {
-  background-color: lightgreen;
+  background-color: #15151a;
+}
+
+.navbar {
+  background-color: transparent !important;
 }
