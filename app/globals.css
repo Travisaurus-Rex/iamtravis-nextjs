@@ -2,6 +2,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap');
 @import "tailwindcss";
 
+:root {
+  --clr-1: #ed85ca; /* pink */
+  --clr-2: #78c6f2; /* blue */
+  --clr-3: #15151a; /* dark gray */
+  --clr-4: #ededed; /* light gray */
+  --clr-5: #0a0a0a; /* black */
+}
+
+@property --gradient-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -37,6 +51,7 @@ body {
   transition-property: opacity, transform, filter, background;
   transition-timing-function: ease-out;
   transition-duration: 200ms;
+  background-color: black;
 }
 
 .page-transition {
@@ -69,4 +84,37 @@ body {
 
 .navbar {
   background-color: transparent !important;
+}
+
+.gradient-border {
+  position: relative;
+  background-color: var(--clr-3);
+}
+
+.gradient-border::before,
+.gradient-border::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  z-index: -1;
+  background: conic-gradient(
+    from var(--gradient-angle),
+    var(--clr-1) 0%,
+    var(--clr-2) 100%
+  );
+  border-radius: inherit;
+  animation: rotation 20s linear infinite;
+}
+
+.gradient-border::after {
+  filter: blur(15px);
+}
+
+@keyframes rotation {
+  0% { --gradient-angle: 0deg; }
+  100% { --gradient-angle: 180deg; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gradient-border::before { animation: none; }
 }
